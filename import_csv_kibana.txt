@@ -7,6 +7,9 @@
 
 
 {
+  "@timestamp": {
+    "type": "date"
+  },
   "latitude": {
     "type": "double"
   },
@@ -14,7 +17,8 @@
     "type": "double"
   },
   "time": {
-    "type": "date"
+    "type": "date",
+    "format": "yyyy-MM-dd HH:mm:ss"
   }
 }
 
@@ -24,15 +28,33 @@
 
 
 {
-  "description": "Insert vehicle location point data",
+  "description": "Ingest pipeline created by file structure finder",
   "processors": [
     {
       "date": {
         "field": "time",
+        "timezone": "{{ beat.timezone }}",
         "formats": [
-          "YYYY-MM-dd HH:mm:ssZ"  
+          "yyyy-MM-dd HH:mm:ss"
         ]
       }
     }
   ]
+}
+
+
+=TEXT(RAND()*("2020-04-04 12:00:00"-"2020-03-31 09:00:00")+"2020-03-31 09:00:00","yyyy-mm-dd h:m:s")
+
+
+GET vehicle/_search
+{
+    "query": {
+        "range" : {
+            "time" : {
+                "time_zone": "+00:00",        
+                "gte": "2020-03-31 09:00:00", 
+                "lte": "now"                
+            }
+        }
+    }
 }

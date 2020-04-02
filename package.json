@@ -1,0 +1,26 @@
+{
+  "name": "elasticsearch-to-postgis-cronjob",
+  "version": "1.0.0",
+  "description": "ElasticSearch to PostGIS cronjob",
+  "main": "getData.js",
+  "dependencies": {
+    "cron": "^1.8.2",
+    "elasticsearch": "^16.7.1",
+    "get-json": "^1.0.1",
+    "pg": "^8.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node getData.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minhduccse/postgis-elasticsearch-cronjob.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/minhduccse/postgis-elasticsearch-cronjob/issues"
+  },
+  "homepage": "https://github.com/minhduccse/postgis-elasticsearch-cronjob#readme"
+}
