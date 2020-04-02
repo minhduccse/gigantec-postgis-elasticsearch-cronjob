@@ -13,7 +13,7 @@
   "scripts": {
     "start": "node index.js",
     "fetch-data": "node fetchDataFromElasticToPostGIS.js",
-    "drop-data": "node dropTable.js"
+    "drop-data": "node dropDataFromElasticToPostGISTable.js"
   },
   "repository": {
     "type": "git",
