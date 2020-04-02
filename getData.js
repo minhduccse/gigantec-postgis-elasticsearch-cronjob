@@ -9,6 +9,7 @@ pgClient.query("CREATE TABLE IF NOT EXISTS public.vehicle2 (gid SERIAL PRIMARY K
 
 esClient.search({
   index: 'vehicle',
+  scroll: '10s',
   body: {
     query: {
       range: {
@@ -20,14 +21,14 @@ esClient.search({
       }
     }
   }
-}, function (error, response, status) {
+}, function getMoreUntilDone(error, response, status) {
   if (error) {
-    console.log("search error: " + error)
+    console.log("Search error: " + error)
   }
   else {
-    console.log("--- Response ---");
-    console.log(response);
-    console.log("--- Hits ---");
+    // console.log("--- Response ---");
+    // console.log(response);
+    // console.log("--- Hits ---");
     response.hits.hits.forEach(function (hit) {
       pgClient.query("INSERT INTO vehicle2 (latitude, longitude, time, geom) VALUES("
         + hit._source.latitude + ", "
@@ -39,14 +40,22 @@ esClient.search({
         + hit._source.latitude + " "
         + hit._source.longitude
         + ")', 4326));", (err, res) => {
-          console.log(err, res)
+          if(err) console.log(err);
+          // console.log(err, res);
         });
-      console.log(hit);
-    })
+      // console.log(hit);
+    });
+
+    if (response.hits.total !== allRecords.length) {
+      esClient.scroll({
+        scrollId: response._scroll_id,
+        scroll: '10s'
+      }, getMoreUntilDone);
+    } else {
+      console.log('All done!');
+    }
   }
 });
-
-
 
 
 
