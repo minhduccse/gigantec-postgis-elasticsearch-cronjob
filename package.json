@@ -11,8 +11,9 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node getData.js",
-    "drop": "node dropTable.js"
+    "start": "node index.js",
+    "fetch-data": "node fetchDataFromElasticToPostGIS.js",
+    "drop-data": "node dropTable.js"
   },
   "repository": {
     "type": "git",
