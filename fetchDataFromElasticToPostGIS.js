@@ -6,7 +6,7 @@ pgClient.query("CREATE TABLE IF NOT EXISTS public.vehicle2 (gid SERIAL PRIMARY K
   if(err) console.log(err);
   // console.log(res);
   console.log();
-})
+});
 
 let allRecords = [];
 
@@ -26,7 +26,7 @@ esClient.search({
   }
 }, function getMoreUntilDone(error, response, status) {
   if (error) {
-    console.log("Search error: " + error)
+    console.log("Search error: " + error);
   }
   else {
     // console.log("--- Response ---");
