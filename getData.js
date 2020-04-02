@@ -8,6 +8,8 @@ pgClient.query("CREATE TABLE IF NOT EXISTS public.vehicle2 (gid SERIAL PRIMARY K
   console.log();
 })
 
+let allRecords = [];
+
 esClient.search({
   index: 'vehicle',
   scroll: '10s',
@@ -31,6 +33,7 @@ esClient.search({
     // console.log(response);
     // console.log("--- Hits ---");
     response.hits.hits.forEach(function (hit) {
+      allRecords.push(hit);
       pgClient.query("INSERT INTO vehicle2 (latitude, longitude, time, geom) VALUES("
         + hit._source.latitude + ", "
         + hit._source.longitude + ", "
