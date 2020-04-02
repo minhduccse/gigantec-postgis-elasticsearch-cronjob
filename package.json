@@ -11,7 +11,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node getData.js"
+    "start": "node getData.js",
+    "drop": "node dropTable.js"
   },
   "repository": {
     "type": "git",

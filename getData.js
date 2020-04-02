@@ -3,7 +3,8 @@ var pgClient = require('./pgConnection.js');
 
 // --- CREATE TABLE IF NOT EXISTS ---
 pgClient.query("CREATE TABLE IF NOT EXISTS public.vehicle2 (gid SERIAL PRIMARY KEY, latitude NUMERIC, longitude NUMERIC, time timestamp WITHOUT time zone, geom geometry(POINT,4326));", (err, res) => {
-  console.log(res);
+  if(err) console.log(err);
+  // console.log(res);
   console.log();
 })
 
@@ -64,13 +65,6 @@ esClient.search({
 //   pgClient.end()
 // })
 // pgClient.query("SELECT EXISTS (SELECT FROM pg_tables  WHERE  schemaname = 'public' AND tablename  = 'vehicle2');", (err, res) => {
-//   console.log(res)
-//   pgClient.end()
-// })
-
-
-// --- DROP TABLE ---
-// pgClient.query("DROP TABLE IF EXISTS vehicle2;", (err, res) => {
 //   console.log(res)
 //   pgClient.end()
 // })
