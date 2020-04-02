@@ -58,3 +58,6 @@ GET vehicle/_search
         }
     }
 }
+
+
+INSERT INTO vehicle2 (latitude, longitude, time, geom) VALUES(10.75012779, 106.6760635, (to_timestamp('2020-04-01 21:38:45', 'yyyy-mm-dd hh24:mi:ss')),ST_GeomFromText('POINT(10.75012779 106.6760635)', 4326));
