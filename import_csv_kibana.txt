@@ -1,0 +1,38 @@
+{
+  "number_of_shards": 1
+}
+
+
+
+
+
+{
+  "latitude": {
+    "type": "double"
+  },
+  "longitude": {
+    "type": "double"
+  },
+  "time": {
+    "type": "date"
+  }
+}
+
+
+
+
+
+
+{
+  "description": "Insert vehicle location point data",
+  "processors": [
+    {
+      "date": {
+        "field": "time",
+        "formats": [
+          "YYYY-MM-dd HH:mm:ssZ"  
+        ]
+      }
+    }
+  ]
+}
