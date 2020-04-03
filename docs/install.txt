@@ -1,0 +1,135 @@
+    1  sudo apt install default-jre
+    2  java -version
+    3  sudo apt-get upgrade
+    4  sudo apt install default-jdk
+    5  java -version
+    6  echo $JAVA_HOME
+    7  /usr/lib/jvm/java-11-oracle
+    8  echo $JAVA_HOME
+    9  sudo apt-get install apt-transport-https
+   10  wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+   11  add-apt-repository "deb https://artifacts.elastic.co/packages/7.x/apt stable main"
+   12  sudo add-apt-repository "deb https://artifacts.elastic.co/packages/7.x/apt stable main"
+   13  sudo apt-get update
+   14  wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+   15  sudo apt-get install apt-transport-https
+   16  sudo apt-get update
+   17  echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+   18  sudo apt-get install elasticsearch
+   19  sudo nano /etc/apt/sources.list
+   20  sudo nano /etc/apt/sources.list.d/elastic-7.x.list
+   21  sudo nano /etc/apt/sources.list
+   22  sudo apt-get install elasticsearch
+   23  clear
+   24  sudo /bin/systemctl daemon-reload
+   25  sudo /bin/systemctl enable kibana.service
+   26  sudo /bin/systemctl enable elasticsearch.service
+   27  git clone https://github.com/minhduccse/postgis-elasticsearch-cronjob.git
+   28  ls
+   29  cd postgis-elasticsearch-cronjob/
+   30  node .
+   31  code .
+   32  sudo nano /etc/elasticsearch/elasticsearch.yml
+   33  cd ..
+   34  sudo /bin/systemctl daemon-reload
+   35  sudo systemctl start elasticsearch.service
+   36  curl -X GET "http://localhost:9200/?pretty"
+   37  sudo apt-get install apt-transport-https
+   38  sudo apt-get update && sudo apt-get install kibana
+   39  sudo nano /etc/kibana/kibana.yml 
+   40  sudo /bin/systemctl daemon-reload
+   41  sudo /bin/systemctl enable kibana.service
+   42  sudo systemctl start kibana.service
+   43  journalctl -u kibana.service
+   44  curl -X GET "http://localhost:9200/?pretty"
+   45  sudo nano /etc/kibana/kibana.yml 
+   46  sudo /bin/systemctl daemon-reload
+   47  sudo systemctl restart kibana.service
+   48  journalctl -u kibana.service
+   49  sudo systemctl restart kibana.service
+   50  sudo nano /etc/kibana/kibana.yml 
+   51  sudo nano /etc/elasticsearch/elasticsearch.yml
+   52  sudo systemctl restart elasticsearch.service
+   53  sudo nano /etc/elasticsearch/elasticsearch.yml
+   54  sudo /bin/systemctl daemon-reload
+   55  sudo systemctl restart elasticsearch.service
+   56  sudo /bin/systemctl daemon-reload
+   57  sudo systemctl restart kibana.service
+   58  curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+   59  sudo apt-get install -y nodejs
+   60  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+   61  echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+   62  sudo apt update && sudo apt install yarn
+   63  clear
+   64  ls
+   65  git clone https://github.com/minhduccse/mapserver-server.git
+   66  sudo apt-get install apache2 apache2-bin apache2-utils cgi-mapserver
+                mapserver-bin mapserver-doc libmapscript-perl
+                python-mapscript ruby-mapscript
+   67  sudo a2enmod cgi fcgid
+   68  sudo nano /etc/apache2/sites-available/000-default.conf
+   69  systemctl restart apache2
+   70  sudo service apache2 restart
+   71  sudo a2enmod cgi fcgid
+   72  mapserv -v 
+   73  ls
+   74  cd postgis-elasticsearch-cronjob/
+   75  ls
+   76  yarn
+   77  yarn start
+   78  clear
+   79  cd ..
+   80  cleả
+   81  clear
+   82  ls
+   83  cd postgis-elasticsearch-cronjob/
+   84  ls
+   85  cat docs/kibana.yml 
+   86  clear
+   87  cat docs/import_csv_kibana.txt 
+   88  ls
+   89  yarn fetch-data
+   90  clear
+   91  sudo
+   92  apt
+   93  -
+   94  get
+   95  install
+   96  postgresql
+   97  -
+   98  server
+   99  -
+  100  dev
+  101  -
+  102  all
+  103  postgresql
+  104  -
+  105  client
+  106  postgresql
+  107  -
+  108  contrib
+  109  clear
+  110  sudo apt-getinstall postgresql-server-dev-all postgresql-client postgresql-contrib pgadmin3
+  111  sudo apt-get install postgresql-server-dev-all postgresql-client postgresql-contrib pgadmin3
+  112  cd ..
+  113  sudo apt-get install osm2pgsql
+  114  sudo su - postgres
+            psql -c "CREATE USER osm WITH PASSWORD 'osm';"
+            psql -c "CREATE DATABASE osm WITH owner osm ENCODING 'UTF8';"
+            psql -d osm -c "CREATE EXTENSION postgis;"
+            exit
+  115  ls
+  116  cd mapserver-server/
+  117  ls
+  118  cd gadm36_VNM_shp/
+  119  ls
+  120  shp2pgsql -I -s 4326 gadm36_VNM_2.shp vnm_2 | psql -h localhost -p 5432 -U osm -d osm
+  121  shp2pgsql -I -s 4326 gadm36_VNM_3.shp vnm_3 | psql -h localhost -p 5432 -U osm -d osm
+  122  ls
+  123  cd ..
+  124  ls
+  125  cd postgis-elasticsearch-cronjob/
+  126  ls
+  127  yarn fetch-data
+  128  ls
+  129  history > ~/postgis-elasticsearch-cronjob/docs/install.txt
