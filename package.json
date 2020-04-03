@@ -13,10 +13,10 @@
   "devDependencies": {},
   "scripts": {
     "start": "node index.js",
-    "fetch-data": "node fetchDataFromElasticToPostGIS.js",
-    "map-color": "node mapColorByDensity.js",
-    "population-color": "node createPopulationPapColor.js",
-    "drop-data": "node dropTables.js"
+    "fetch-data": "node cronjob/fetchDataFromElasticToPostGIS.js",
+    "map-color": "node cronjob/mapColorByDensity.js",
+    "population-color": "node cronjob/population.js",
+    "drop-data": "node cronjob/dropTables.js"
   },
   "repository": {
     "type": "git",
