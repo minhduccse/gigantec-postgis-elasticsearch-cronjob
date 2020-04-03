@@ -32,9 +32,9 @@ esClient.search({
     // console.log("--- Response ---");
     // console.log(response);
     // console.log("--- Hits ---");
-    response.hits.hits.forEach(function (hit) {
+    response.hits.hits.forEach(async function (hit) {
       allRecords.push(hit);
-      pgClient.query("INSERT INTO vehicle2 (latitude, longitude, time, geom) VALUES("
+      await pgClient.query("INSERT INTO vehicle2 (latitude, longitude, time, geom) VALUES("
         + hit._source.latitude + ", "
         + hit._source.longitude + ", "
         + "(to_timestamp('"
