@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
+/* GET mapping color listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  res.json({successObject: 'Response success'});
 });
 
 module.exports = router;
