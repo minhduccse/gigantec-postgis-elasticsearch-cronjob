@@ -3,17 +3,22 @@
   "version": "1.0.0",
   "description": "ElasticSearch to PostGIS cronjob",
   "main": "getData.js",
+  "private": true,
   "dependencies": {
     "body-parser": "^1.19.0",
     "cron": "^1.8.2",
     "elasticsearch": "^16.7.1",
-    "express": "^4.17.1",
     "get-json": "^1.0.1",
-    "pg": "^8.0.0"
+    "http-errors": "^1.7.3",
+    "pg": "^8.0.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "morgan": "~1.9.1"
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node index.js",
+    "start": "node ./bin/www",
     "fetch-data": "node cronjob/fetchDataFromElasticToPostGIS.js",
     "income-color": "node cronjob/createIncomeMappingColor.js",
     "population-color": "node cronjob/createPopulationMappingColor.js",
