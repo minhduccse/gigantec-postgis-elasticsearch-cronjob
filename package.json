@@ -14,6 +14,7 @@
     "start": "node index.js",
     "fetch-data": "node fetchDataFromElasticToPostGIS.js",
     "map-color": "node mapColorByDensity.js",
+    "population-color": "node createPopulationPapColor.js",
     "drop-data": "node dropTables.js"
   },
   "repository": {
