@@ -94,3 +94,174 @@ sudo nano /etc/elasticsearch/elasticsearch.yml
 
 /etc/kibana/kibana.yml
 
+
+
+
+
+
+
+
+
+
+Install
+Install
+Overview of the stack
+
+
+Requirements
+If you are using a Live DVD OSGeo image or a Xenial (Ubuntu 16.04 LTS), it should work out of the box for Mapnik
+
+Upgrade the system
+sudo apt-get update
+sudo apt-get upgrade
+Install Python headers
+sudo apt-get install python-dev
+Install Mapnik and Python Mapnik bindings
+We include also GDAL headers and Python bindings.
+
+sudo apt-get install python-mapnik python-gdal libgdal-dev python-dev
+Install PostgreSQL/PostGIS
+The purpose is to be able to use data from database
+
+sudo apt-get install postgresql-server-dev-all postgresql-client postgresql-contrib pgadmin3
+Install osm2pgsql
+It's the utility to import OSM data in PostgreSQL/PostGIS
+
+sudo apt-get install osm2pgsql
+Install carto
+It's the utility to convert CartoCSS to Mapnik XML style.
+
+sudo apt-get install node-carto
+Prepare the Python part
+Install virtualenv
+sudo apt-get install python-virtualenv
+Create a virtual environnement
+mkdir workshop-tilestache && cd workshop-tilestache
+virtualenv venv --python=/usr/bin/python2.7
+source venv/bin/activate
+TileStache and dependencies
+Two choices
+Official TileStache
+Unofficial TileStache (Mapzen)
+Retrieve the code
+git clone https://github.com/tilezen/TileStache.git
+cd TileStache
+Install Tilestache dependencies
+pip install -r requirements.txt
+pip install werkzeug pillow==2.9.0
+pip install mapbox-vector-tile
+pip install gdal==1.11.2
+pip install psycopg2
+Caution: you may need to run the following for GDAL due to virtual environment
+
+export CPLUS_INCLUDE_PATH=/usr/include/gdal/
+export C_INCLUDE_PATH=/usr/include/gdal
+# export CFLAGS=$(gdal-config --cflags)
+Install TileStache itself
+python setup.py install
+
+
+
+
+
+
+
+
+
+
+
+Use the data
+We prepared some samples. Go to http://labs.webgeodatavore.com/partage/samples.zip
+
+Display raster tiles
+unzip the samples and put it at the same level as the TileStache directory
+
+Then run the server
+
+cd samples
+../TileStache/scripts/tilestache-server.py -c admin_level_7_belgium.cfg
+Open http://localhost:8080
+The server tells you:
+
+"None" is not a layer I know about. Here are some that I do know about: , adminlevel7.
+
+So head to http://localhost:8080/adminlevel7/
+Let's review the files behind this magic
+
+admin_level_7_belgium.xml
+admin_level_7_belgium.cfg
+You can use Mapnik XML syntax or use CartoCSS (you can convert CartoCSS to Mapnik XML syntax)
+
+Create DB
+Add new user and create database with PostGIS
+
+sudo su - postgres
+psql -c "CREATE USER osm WITH PASSWORD 'osm';"
+psql -c "CREATE DATABASE osm WITH owner osm ENCODING 'UTF8';"
+psql -d osm -c "CREATE EXTENSION postgis;"
+exit
+Get OSM Data
+cd /tmp
+wget https://s3.amazonaws.com/metro-extracts.mapzen.com/brussels_belgium.osm.pbf
+Load the OSM data
+sudo su - postgres
+cd /tmp
+osm2pgsql --number-processes 4 -c -G -d osm brussels_belgium.osm.pbf
+exit
+Install OSM Bright
+wget https://github.com/mapbox/osm-bright/archive/master.zip
+unzip master.zip
+cd osm-bright-master
+mkdir osm-bright/shp/
+wget http://data.openstreetmapdata.com/simplified-land-polygons-complete-3857.zip
+wget http://data.openstreetmapdata.com/land-polygons-split-3857.zip
+wget http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_populated_places.zip
+mv simplified-land-polygons-complete-3857.zip osm-bright/shp/
+mv land-polygons-split-3857.zip osm-bright/shp/
+mv ne_10m_populated_places.zip osm-bright/shp/
+cd osm-bright/shp/
+unzip simplified-land-polygons-complete-3857.zip
+unzip land-polygons-split-3857.zip
+mkdir ne_10m_populated_places
+mv ne_10m_populated_places.zip ne_10m_populated_places
+cd ne_10m_populated_places
+unzip ne_10m_populated_places.zip
+cd ../../..
+cp configure.py.sample configure.py
+Change the variables in configure.py file
+
+config["path"] = ...
+
+config["postgis"]["host"]     = "localhost"
+config["postgis"]["port"]     = "5432"
+config["postgis"]["dbname"]   = "osm"
+config["postgis"]["user"]     = "osm"
+config["postgis"]["password"] = "osm"
+Then run
+
+python make.py
+It will generate an OSMBright directory.
+
+Generate Mapnik XML file from MML
+OSMBright is a CartoCSS based project. Tilestache need a reference to an XML Mapnik style file.
+
+Use node-mapnik package binary carto to make the transformation.
+
+carto OSMBright/project.mml > OSMBright/project.xml
+Then run the server
+
+../TileStache-integration-1/scripts/tilestache-server.py -c osm-bright.cfg
+Manage vector tiles
+GeoJSON flavour
+cd samples
+../TileStache/scripts/tilestache-server.py -c vector-server.cfg
+Test with URL
+
+http://localhost:8080/osmbuilding/17/67136/43983.json
+
+MVT flavour
+You need to fix TileStache installation by replacing in venv/local/lib/python2.7/site-packages/TileStache/Goodies/VecTiles/server.py the line 342 mvt.encode(out, features, self.coord, self.layer_name) with mvt.encode(out, features, self.coord, self.bounds, self.layer_name).
+
+Then, just test with following URL:
+
+http://localhost:8080/osmbuilding/17/67136/43983.mvt
