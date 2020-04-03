@@ -7,10 +7,9 @@ async function getDistricts() {
     let districts = [];
     pgDb.query("select * from vnm_2 where gid_1 = 'VNM.25_1';").then(res => { 
         districts = { ...res.rows };
-        console.log(districts);
     }).catch(err => console.error('Error executing query', err.stack));
 
-    // pgDb.end().then(() => console.log('pool has ended'));
+    pgDb.end().then(() => console.log('pool has ended'));
 }
 
 getDistricts();
