@@ -77,3 +77,20 @@ INSERT INTO vehicle2 (latitude, longitude, time, geom) VALUES(10.75012779, 106.6
 //   console.log('You will see this message every second');
 // }, null, true, 'America/Los_Angeles');
 // job.start();
+
+sudo systemctl restart elasticsearch.service
+
+sudo nano /etc/elasticsearch/elasticsearch.yml
+
+sudo /bin/systemctl enable elasticsearch.service
+
+sudo /bin/systemctl daemon-reload
+sudo /bin/systemctl enable kibana.service
+
+sudo systemctl start kibana.service
+sudo systemctl stop kibana.service
+
+sudo nano /etc/elasticsearch/elasticsearch.yml
+
+/etc/kibana/kibana.yml
+
