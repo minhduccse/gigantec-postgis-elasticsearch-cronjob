@@ -11,7 +11,8 @@ async function createTable() {
 }
 
 async function getPoints() {
-  let points = [];
+  let allPoints = [];
+  let responseQueue = [];
   const response = await esClient.search({
     index: 'vehicle',
     scroll: '10s',
@@ -26,36 +27,38 @@ async function getPoints() {
         }
       }
     }
-  }, function getMoreUntilDone(error, response, status) {
-    if (error) {
-      console.log("Search error: " + error);
-    }
-    else {
-      // console.log("--- Response ---");
-      // console.log(response);
-      // console.log("--- Hits ---");
-      response.hits.hits.forEach(function (hit) {
-        points.push(hit);
-      });
-
-      if (response.hits.total !== points.length) {
-        esClient.scroll({
-          scrollId: response._scroll_id,
-          scroll: '10s'
-        }, getMoreUntilDone);
-      } else {
-        console.log('All done!');
-      }
-    }
   });
-  console.log(points);
-  return points;
+
+  responseQueue.push(response);
+
+  while (responseQueue.length) {
+    const body = responseQueue.shift()
+    // collect the points from this response
+    body.hits.hits.forEach(function (hit) {
+      allPoints.push(hit);
+    })
+
+    // check to see if we have collected all of the points
+    if (body.hits.total.value === allPoints.length) {
+      console.log('All points!');
+      break;
+    }
+
+    // get the next response if there are more points to fetch
+    responseQueue.push(
+      await esClient.scroll({
+        scrollId: body._scroll_id,
+        scroll: '30s'
+      })
+    )
+  }
+  return allPoints;
 }
 
 async function importData(points) {
   var promises = [];
   points.map(function (point) {
-      promises.push(pgClient.query("INSERT INTO vehicle (latitude, longitude, time, geom) VALUES("
+    promises.push(pgPool.query("INSERT INTO vehicle (latitude, longitude, time, geom) VALUES("
       + point._source.latitude + ", "
       + point._source.longitude + ", "
       + "(to_timestamp('"
@@ -69,8 +72,8 @@ async function importData(points) {
   });
 
   await Promise.all(promises)
-  .then(() => console.log('All done!'))
-  .catch(err => console.error('Error executing query', err.stack));
+    .then(() => console.log('All done!'))
+    .catch(err => console.error('Error executing query', err.stack));
 
   await pgPool.end().then(() => console.log('Pool-import-points has ended'));
 }
