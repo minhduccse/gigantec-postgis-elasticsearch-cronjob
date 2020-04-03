@@ -1,7 +1,7 @@
 const pgPool = require('../db/pgConnection')
 
 async function createTable() {
-    await pgPool.query("CREATE TABLE IF NOT EXISTS public.population_mapping_color (id SERIAL PRIMARY KEY, gid INT, gid_0 VARCHAR (80), gid_1 VARCHAR (80), gid_2 VARCHAR (80), gid_3 VARCHAR (80), color VARCHAR (80));").then(() => console.log("Created table!"))
+    await pgPool.query("CREATE TABLE IF NOT EXISTS public.population_mapping_color (id SERIAL PRIMARY KEY, gid INT, gid_0 VARCHAR (80), gid_1 VARCHAR (80), gid_2 VARCHAR (80), color VARCHAR (80));").then(() => console.log("Created table!"))
         .catch(err => console.error('Error executing query', err.stack));
 }
 
@@ -17,12 +17,11 @@ async function importData(districs) {
     var promises = [];
 
     districs.map(function (row) {
-        promises.push(pgPool.query("INSERT INTO population_mapping_color (gid, gid_0, gid_1, gid_2, gid_3, color) VALUES('"
+        promises.push(pgPool.query("INSERT INTO population_mapping_color (gid, gid_0, gid_1, gid_2, color) VALUES('"
             + row.gid + "', '"
             + row.gid_0 + "', '"
             + row.gid_1 + "', '"
-            + row.gid_2 + "', '"
-            + row.gid_3
+            + row.gid_2
             + "', '#ffffff');").then(() => console.log('Import row', row.gid_2)).catch(err => console.error('Error executing query', err.stack)));
     });
 
