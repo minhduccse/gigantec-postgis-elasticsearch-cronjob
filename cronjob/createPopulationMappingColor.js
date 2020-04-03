@@ -1,7 +1,7 @@
 const pgPool = require('../db/pgConnection')
 
 async function createTable() {
-    await pgPool.query("CREATE TABLE IF NOT EXISTS public.population_mapping_color (id SERIAL PRIMARY KEY, gid INT, gid_0 VARCHAR (80), gid_1 VARCHAR (80), gid_2 VARCHAR (80), color VARCHAR (80));").then(() => console.log("Created table!"))
+    await pgPool.query("CREATE TABLE IF NOT EXISTS public.population_mapping_color (id SERIAL PRIMARY KEY, gid INT, gid_0 VARCHAR (80), gid_1 VARCHAR (80), gid_2 VARCHAR (80), color VARCHAR (10));").then(() => console.log("Created table!"))
         .catch(err => console.error('Error executing query', err.stack));
 }
 

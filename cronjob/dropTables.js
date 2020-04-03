@@ -10,6 +10,9 @@ async function dropTables(params) {
   
   await pgClient.query("DROP TABLE IF EXISTS income_mapping_color;").then(() => console.log("Dropped table income_map_color!"))
     .catch(err => console.error('Error executing query', err.stack));
+
+  await pgClient.query("DROP TABLE IF EXISTS color_value;").then(() => console.log("Dropped table color_value!"))
+    .catch(err => console.error('Error executing query', err.stack));
   
   await pgClient.end().then(() => console.log('Pool has ended'));
 }
