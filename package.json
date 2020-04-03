@@ -4,6 +4,7 @@
   "description": "ElasticSearch to PostGIS cronjob",
   "main": "getData.js",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "cron": "^1.8.2",
     "elasticsearch": "^16.7.1",
     "express": "^4.17.1",
