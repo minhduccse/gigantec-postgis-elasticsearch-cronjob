@@ -65,8 +65,8 @@ async function importData(points) {
       + point._source.time
       + "', 'yyyy-mm-dd hh24:mi:ss')), "
       + "ST_GeomFromText('POINT("
-      + point._source.latitude + " "
-      + point._source.longitude
+      + point._source.longitude + " "
+      + point._source.latitude
       + ")', 4326));")
       .catch(err => console.error('Error executing query', err.stack)));
   });
