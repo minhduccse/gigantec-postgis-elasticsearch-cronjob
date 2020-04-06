@@ -5,7 +5,7 @@ var pgPool = require('../db/pgConnection.js');
 
 async function createTable() {
   // --- CREATE TABLE IF NOT EXISTS ---
-  await pgPool.query("CREATE TABLE IF NOT EXISTS public.vehicle (gid SERIAL PRIMARY KEY, latitude NUMERIC, longitude NUMERIC, time timestamp WITHOUT time zone, geom geometry(POINT,4326));")
+  await pgPool.query("CREATE TABLE IF NOT EXISTS public.vehicle (gid SERIAL PRIMARY KEY, latitude NUMERIC, longitude NUMERIC, geom geometry(POINT,4326));")
     .then(() => console.log("Created table!"))
     .catch(err => console.error('Error executing query', err.stack));
 }
