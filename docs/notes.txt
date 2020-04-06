@@ -267,13 +267,15 @@ Then, just test with following URL:
 http://localhost:8080/osmbuilding/17/67136/43983.mvt
 
 
-ALTER TABLE income_mapping_color ADD COLUMN IF NOT EXISTS density INT;
+ALTER TABLE income_mapping_color ADD COLUMN IF NOT EXISTS numpoint NUMERIC;
+ALTER TABLE income_mapping_color ADD COLUMN IF NOT EXISTS total_weight NUMERIC;
 UPDATE income_mapping_color
-SET density = sub_table.total
+SET numpoint = sub_table.numpoint, total_weight = sub_table.total_weight
 FROM 
 	(
-	SELECT vnm_3.gid, COUNT(vehicle2.geom) AS total
-	FROM vnm_3 LEFT JOIN vehicle2 ON st_contains(vnm_3.geom, vehicle2.geom) GROUP BY vnm_3.gid
+	SELECT vnm_3.gid,
+  COUNT(vehicle2.geom) AS numpoint FROM vnm_3 LEFT JOIN vehicle2 ON st_contains(vnm_3.geom, vehicle2.geom) GROUP BY vnm_3.gid,
+  SUM(vehicle2.weight) as total_weight FROM vnm_3 LEFT JOIN vehicle2 ON st_contains(vnm_3.geom, vehicle2.geom) GROUP BY vnm_3.gid,
 	) AS sub_table
 WHERE sub_table.gid = income_mapping_color.gid;
 
