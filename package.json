@@ -23,7 +23,8 @@
     "fetch-data": "node cronjob/fetchDataFromElasticToPostGIS.js",
     "income-color": "node cronjob/createIncomeMappingColor.js",
     "population-color": "node cronjob/createPopulationMappingColor.js",
-    "create-hash-table": "node cronjob/createColorTable.js",
+    "create-hash-table": "node cronjob/createHashColorTable.js",
+    "color-by-density": "node cronjob/createColorByDensityTable.js",
     "drop-data": "node cronjob/dropTables.js"
   },
   "repository": {
