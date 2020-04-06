@@ -58,12 +58,9 @@ async function getPoints() {
 async function importData(points) {
   var promises = [];
   points.map(function (point) {
-    promises.push(pgPool.query("INSERT INTO vehicle (latitude, longitude, time, geom) VALUES("
+    promises.push(pgPool.query("INSERT INTO vehicle (latitude, longitude, geom) VALUES("
       + point._source.latitude + ", "
       + point._source.longitude + ", "
-      + "(to_timestamp('"
-      + point._source.time
-      + "', 'yyyy-mm-dd hh24:mi:ss')), "
       + "ST_GeomFromText('POINT("
       + point._source.longitude + " "
       + point._source.latitude
