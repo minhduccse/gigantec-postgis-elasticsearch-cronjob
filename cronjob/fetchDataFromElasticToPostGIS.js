@@ -5,7 +5,7 @@ var pgPool = require('../db/pgConnection.js');
 
 async function createTable() {
   // --- CREATE TABLE IF NOT EXISTS ---
-  await pgPool.query("CREATE TABLE IF NOT EXISTS public.vehicle (gid SERIAL PRIMARY KEY, latitude NUMERIC, longitude NUMERIC, geom geometry(POINT,4326));")
+  await pgPool.query("CREATE TABLE IF NOT EXISTS public.vehicle (gid SERIAL PRIMARY KEY, geom geometry(POINT,4326));")
     .then(() => console.log("Created table!"))
     .catch(err => console.error('Error executing query', err.stack));
 }
@@ -40,7 +40,7 @@ async function getPoints() {
 
     // check to see if we have collected all of the points
     if (body.hits.total.value === allPoints.length) {
-      console.log('All points!');
+      console.log('All points collected!');
       break;
     }
 
@@ -58,9 +58,7 @@ async function getPoints() {
 async function importData(points) {
   var promises = [];
   points.map(function (point) {
-    promises.push(pgPool.query("INSERT INTO vehicle (latitude, longitude, geom) VALUES("
-      + point._source.latitude + ", "
-      + point._source.longitude + ", "
+    promises.push(pgPool.query("INSERT INTO vehicle (geom) VALUES("
       + "ST_GeomFromText('POINT("
       + point._source.longitude + " "
       + point._source.latitude
@@ -71,15 +69,20 @@ async function importData(points) {
   await Promise.all(promises)
     .then(() => console.log('All done!'))
     .catch(err => console.error('Error executing query', err.stack));
-
-  await pgPool.end().then(() => console.log('Pool-import-points has ended'));
 }
 
+async function reindex() {
+  await pgPool.query("REINDEX TABLE vehicle")
+    .then(() => console.log("Reindexed table!"))
+    .catch(err => console.error('Error executing query', err.stack));
+  await pgPool.end().then(() => console.log('Pool-fetch-data has ended'));
+}
 
 async function run() {
   await createTable();
   const points = await getPoints();
   await importData(points);
+  await reindex();
 }
 
 run().catch(err => console.error(err));
