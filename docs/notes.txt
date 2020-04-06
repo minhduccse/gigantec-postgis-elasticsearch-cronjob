@@ -274,8 +274,8 @@ SET numpoint = sub_table.numpoint, total_weight = sub_table.total_weight
 FROM 
 	(
 	SELECT vnm_3.gid,
-  COUNT(vehicle2.geom) AS numpoint FROM vnm_3 LEFT JOIN vehicle2 ON st_contains(vnm_3.geom, vehicle2.geom) GROUP BY vnm_3.gid,
-  SUM(vehicle2.weight) as total_weight FROM vnm_3 LEFT JOIN vehicle2 ON st_contains(vnm_3.geom, vehicle2.geom) GROUP BY vnm_3.gid,
+  	COUNT(heat_data.geom) AS numpoint,
+  	SUM(heat_data.weight) AS total_weight FROM vnm_3 LEFT JOIN heat_data ON st_contains(vnm_3.geom, heat_data.geom) GROUP BY vnm_3.gid
 	) AS sub_table
 WHERE sub_table.gid = income_mapping_color.gid;
 
