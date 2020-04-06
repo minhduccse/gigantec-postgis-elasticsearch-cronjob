@@ -13,10 +13,10 @@ async function getWards() {
     return wards;
 }
 
-async function importData(districs) {
+async function importData(wards) {
     var promises = [];
 
-    districs.map(function (row) {
+    wards.map(function (row) {
         promises.push(pgPool.query("INSERT INTO income_mapping_color (gid, gid_0, gid_1, gid_2, gid_3, color) VALUES('"
             + row.gid + "', '"
             + row.gid_0 + "', '"
