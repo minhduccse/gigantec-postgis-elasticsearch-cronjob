@@ -21,11 +21,11 @@
   "scripts": {
     "start": "node ./bin/www",
     "fetch-data": "node cronjob/fetchDataFromElasticToPostGIS.js",
+    "drop-data": "node cronjob/dropTables.js",
     "income-color": "node cronjob/createIncomeMappingColor.js",
     "population-color": "node cronjob/createPopulationMappingColor.js",
     "create-hash-table": "node cronjob/createHashColorTable.js",
-    "color-by-density": "node cronjob/createColorByDensityTable.js",
-    "drop-data": "node cronjob/dropTables.js"
+    "test-query": "node cronjob/testQuery.js"
   },
   "repository": {
     "type": "git",
