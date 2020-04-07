@@ -321,3 +321,25 @@ FROM income_mapping_color LEFT JOIN
       )
       AS color_value2
       ON income_mapping_color.gid = color_value2.gid;
+
+const populationColor = population => {
+  if (population >= 100000 && population < 200000) {
+    return color.population.step1;
+  }
+  if (population >= 200000 && population < 300000) {
+    return color.population.step2;
+  }
+  if (population >= 300000 && population < 400000) {
+    return color.population.step3;
+  }
+  if (population >= 400000 && population < 500000) {
+    return color.population.step4;
+  }
+  if (population >= 500000 && population < 600000) {
+    return color.population.step5;
+  }
+  if (population >= 600000) {
+    return color.population.step6;
+  }
+  return 'gray';
+};
