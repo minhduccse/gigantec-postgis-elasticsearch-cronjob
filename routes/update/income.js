@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const pgPool = require('../db/pgConnection')
+const pgPool = require('../../db/pgConnection')
 
 router.post('/', function (req, res, next) {
     pgPool.query("UPDATE color_value SET color_type = '"

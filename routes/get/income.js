@@ -1,7 +1,7 @@
 var express = require('express');
 var _ = require('lodash');
 var router = express.Router();
-const pgPool = require('../db/pgConnection')
+const pgPool = require('../../db/pgConnection')
 
 /* GET mapping color listing. */
 router.get('/', function (req, res, next) {

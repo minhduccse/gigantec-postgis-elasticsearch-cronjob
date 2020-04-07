@@ -5,8 +5,10 @@ var bodyParser = require('body-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var mappingColorRouter = require('./routes/mapping-color');
-var updateColorRouter = require('./routes/update-color');
+var getIncomeInfo = require('./routes/get/income');
+var getPopulationInfo = require('./routes/get/population');
+var updateIncome = require('./routes/update/income');
+var updatePopulation = require('./routes/update/population');
 
 var app = express();
 
@@ -19,7 +21,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/', indexRouter);
-app.use('/map/mapping-color', mappingColorRouter);
-app.use('/map/update-color', updateColorRouter);
+app.use('/map/get/income', getIncomeInfo);
+app.use('/map/update/income', updateIncome);
+// app.use('/map/get/population', getPopulationInfo);
+// app.use('/map/update/population', updatePopulation);
 
 module.exports = app;

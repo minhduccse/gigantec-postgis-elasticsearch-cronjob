@@ -21,8 +21,8 @@ async function getPoints() {
         range: {
           time: {
             time_zone: "+07:00",
-            gte: "now-1d",
-            lte: "now"
+            gte: "2020-04-03 12:00:00",
+            lte: "2020-04-04 12:00:00"
           }
         }
       }

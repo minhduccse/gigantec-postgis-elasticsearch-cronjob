@@ -1,7 +1,7 @@
 const pgPool = require('../db/pgConnection')
 
 async function createTable() {
-    await pgPool.query("CREATE TABLE IF NOT EXISTS public.population_mapping_color (id SERIAL PRIMARY KEY, gid INT, gid_0 VARCHAR (80), gid_1 VARCHAR (80), gid_2 VARCHAR (80);").then(() => console.log("Created table!"))
+    await pgPool.query("CREATE TABLE IF NOT EXISTS public.population_mapping_color (id SERIAL PRIMARY KEY, gid INT, gid_0 VARCHAR (80), gid_1 VARCHAR (80), gid_2 VARCHAR (80), geom geometry(MULTIPOLYGON));").then(() => console.log("Created table!"))
         .catch(err => console.error('Error executing query', err.stack));
 }
 
@@ -17,12 +17,13 @@ async function importData(districs) {
     var promises = [];
 
     districs.map(function (row) {
-        promises.push(pgPool.query("INSERT INTO population_mapping_color (gid, gid_0, gid_1, gid_2, color) VALUES('"
+        promises.push(pgPool.query("INSERT INTO population_mapping_color (gid, gid_0, gid_1, gid_2, geom) VALUES('"
             + row.gid + "', '"
             + row.gid_0 + "', '"
             + row.gid_1 + "', '"
-            + row.gid_2
-            + "');").then(() => console.log('Import row', row.gid_2)).catch(err => console.error('Error executing query', err.stack)));
+            + row.gid_2 + "', ST_AsText('"
+            + row.geom
+            + "'));").then(() => console.log('Import row', row.gid_2)).catch(err => console.error('Error executing query', err.stack)));
     });
 
     await Promise.all(promises).then(() => console.log('All done!')).catch(err => console.error('Error executing query', err.stack));
