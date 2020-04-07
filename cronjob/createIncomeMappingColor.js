@@ -32,7 +32,7 @@ async function importData(wards) {
 }
 
 async function calculateDensity() {
-    await pgPool.query("ALTER TABLE income_mapping_color ADD COLUMN IF NOT EXISTS numpoint NUMERIC; ALTER TABLE income_mapping_color ADD COLUMN IF NOT EXISTS total_weight NUMERIC; UPDATE income_mapping_color SET numpoint = sub_table.numpoint, total_weight = sub_table.total_weight FROM (SELECT vnm_3.gid, COUNT(heat_data.geom) AS numpoint, COALESCE(SUM(heat_data.weight),0) AS total_weight FROM vnm_3 LEFT JOIN heat_data ON st_contains(vnm_3.geom heat_data.geom) GROUP BY vnm_3.gid) AS sub_table WHERE sub_table.gid = income_mapping_color.gid;")
+    await pgPool.query("ALTER TABLE income_mapping_color ADD COLUMN IF NOT EXISTS numpoint NUMERIC; ALTER TABLE income_mapping_color ADD COLUMN IF NOT EXISTS total_weight NUMERIC; UPDATE income_mapping_color SET numpoint = sub_table.numpoint, total_weight = sub_table.total_weight FROM (SELECT vnm_3.gid, COUNT(heat_data.geom) AS numpoint, COALESCE(SUM(heat_data.weight),0) AS total_weight FROM vnm_3 LEFT JOIN heat_data ON st_contains(vnm_3.geom, heat_data.geom) GROUP BY vnm_3.gid) AS sub_table WHERE sub_table.gid = income_mapping_color.gid;")
         .then(() => console.log("Calculated numpoint and total weight!"))
         .catch(err => console.error('Error executing query', err.stack));
 
