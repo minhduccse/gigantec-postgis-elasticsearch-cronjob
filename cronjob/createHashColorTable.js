@@ -9,11 +9,11 @@ async function createTable() {
 async function importSampleData() {
     let promises = [];
 
-    for (let index = 0; index < 6; index++) {
+    for (let index = 0; index < 5; index++) {
         promises.push(pgPool.query("INSERT INTO color_value (id, min_value, max_value, color_type, color_value) VALUES("
             + index + ", '"
-            + index * 10000 + "' , '"
-            + (index * 10000 + 10000)
+            + index * 30 + "' , '"
+            + (index * 30 + 30)
             + "' , 'STATIC', '#ffffff')")
         );
     }
