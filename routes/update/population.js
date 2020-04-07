@@ -4,10 +4,9 @@ var router = express.Router();
 const pgPool = require('../../db/pgConnection')
 
 router.post('/', function (req, res, next) {
-    pgPool.query("UPDATE population_info SET population = '"
-        + req.body.population + "', color_value = '"
-        + req.body.color_value + "' WHERE gid = "
-        + req.body.gid + "; ")
+    const { gid, population, color_value } = req.body;
+
+    pgPool.query("UPDATE population_info SET population = $1, color_value = $2 WHERE gid = $3;", [population, color_value, gid])
         .then(result => {
             if (result.rowCount > 0) res.json({ successObject: "Updated" });
         })
