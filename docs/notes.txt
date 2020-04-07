@@ -303,3 +303,21 @@ SET mean =
 		 WHEN 0 THEN 0
 		 ELSE total_weight / numpoint
 	END);
+
+
+SELECT *,
+  (SELECT MIN(color_value.max_value)
+  FROM color_value
+  WHERE color_value.max_value > income_mapping_color.mean
+  ) AS data
+FROM income_mapping_color;
+
+SELECT *
+FROM income_mapping_color LEFT JOIN
+     (SELECT income_mapping_color.gid, color_value.color_value, MIN(color_value.max_value)
+        FROM color_value,income_mapping_color
+        WHERE color_value.max_value > income_mapping_color.mean
+        GROUP BY income_mapping_color.gid, color_value.color_value
+      )
+      AS color_value2
+      ON income_mapping_color.gid = color_value2.gid;
