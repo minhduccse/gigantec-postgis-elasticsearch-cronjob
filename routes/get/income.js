@@ -5,7 +5,7 @@ const pgPool = require('../../db/pgConnection')
 
 /* GET mapping color listing. */
 router.get('/', function (req, res, next) {
-  pgPool.query("SELECT * FROM public.color_value").then(result => res.status(200).json({
+  pgPool.query("SELECT * FROM public.income_info").then(result => res.status(200).json({
     code: 200,
     successObject: _.orderBy(result.rows, ['id']),
   }))
