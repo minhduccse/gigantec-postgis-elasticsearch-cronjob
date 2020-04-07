@@ -6,8 +6,8 @@ const pgPool = require('../../db/pgConnection')
 router.post('/', function (req, res, next) {
     pgPool.query("UPDATE population_info SET population = '"
         + req.body.population + "', color_value = '"
-        + req.body.color_value + "' WHERE id = "
-        + req.body.id + "; ")
+        + req.body.color_value + "' WHERE gid = "
+        + req.body.gid + "; ")
         .then(result => {
             if (result.rowCount > 0) res.json({ successObject: "Updated" });
         })

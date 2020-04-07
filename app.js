@@ -24,6 +24,6 @@ app.use('/', indexRouter);
 app.use('/map/get/income', getIncomeInfo);
 app.use('/map/update/income', updateIncome);
 app.use('/map/get/population', getPopulationInfo);
-// app.use('/map/update/population', updatePopulation);
+app.use('/map/update/population', updatePopulation);
 
 module.exports = app;
