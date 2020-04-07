@@ -1,9 +1,12 @@
 const pgPool = require('../db/pgConnection')
 
 async function testQuery() {
-    await pgPool.query("CREATE TABLE income_density AS SELECT vnm_3.gid, vnm_3.gid_1, vnm_3.geom, COUNT(vehicle2.geom) AS total FROM vnm_3 LEFT JOIN vehicle2 ON st_contains(vnm_3.geom, vehicle2.geom) GROUP BY vnm_3.gid;")
-        .then(() => console.log("Query done!"))
-        .catch(err => console.error('Error executing query', err.stack));
+    await pgPool.query("SELECT * FROM income_mapping_color WHERE mean = (SELECT MAX (mean) FROM income_mapping_color);")
+    .then(res => {
+        console.log(res);
+        console.log("Query done!");
+    })
+    .catch(err => console.error('Error executing query', err.stack));
     await pgPool.end().then(() => console.log('Pool has ended'));
 }
 

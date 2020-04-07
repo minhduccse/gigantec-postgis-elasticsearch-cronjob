@@ -275,10 +275,31 @@ FROM
 	(
 	SELECT vnm_3.gid,
   	COUNT(heat_data.geom) AS numpoint,
-  	SUM(heat_data.weight) AS total_weight FROM vnm_3 LEFT JOIN heat_data ON st_contains(vnm_3.geom, heat_data.geom) GROUP BY vnm_3.gid
+  	COALESCE(SUM(heat_data.weight),0) AS total_weight FROM vnm_3 LEFT JOIN heat_data ON st_contains(vnm_3.geom, heat_data.geom) GROUP BY vnm_3.gid
 	) AS sub_table
 WHERE sub_table.gid = income_mapping_color.gid;
 
 
             gte: "2020-04-03 12:00:00",
             lte: "2020-04-04 12:00:00"
+
+
+SELECT
+   *
+FROM
+   income_mapping_color
+WHERE
+  mean = (
+    SELECT
+        MAX (mean)
+   FROM
+      income_mapping_color
+);
+
+ALTER TABLE income_mapping_color ADD COLUMN IF NOT EXISTS mean NUMERIC;
+UPDATE income_mapping_color
+SET mean =
+	(CASE income_mapping_color.numpoint 
+		 WHEN 0 THEN 0
+		 ELSE total_weight / numpoint
+	END);
