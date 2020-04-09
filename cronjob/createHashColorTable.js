@@ -1,6 +1,13 @@
-const pgPool = require('../db/pgConnection')
-
+const { Pool } = require('pg');
+var pgPool = null;
 async function createTable() {
+    pgPool = new Pool({
+        user: 'osm',
+        host: 'localhost',
+        database: 'osm',
+        password: 'osm',
+        port: 5432,
+    });
     await pgPool.query("CREATE TABLE IF NOT EXISTS public.income_info (id SERIAL PRIMARY KEY, max_value NUMERIC, color_type VARCHAR (20), color_value VARCHAR (10), color_range_start VARCHAR (10), color_range_stop VARCHAR (10));")
         .then(() => console.log("Created table!"))
         .catch(err => console.error('Error executing query', err.stack));
@@ -58,4 +65,6 @@ async function run() {
     await importPopulationSampleData(districts);
 }
 
-run().catch(err => console.error(err));
+// run().catch(err => console.error(err));
+
+module.exports.run = run;

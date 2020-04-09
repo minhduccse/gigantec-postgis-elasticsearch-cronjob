@@ -1,6 +1,14 @@
-const pgPool = require('../db/pgConnection')
+const { Pool } = require('pg');
+var pgPool = null;
 
 async function createTable() {
+    pgPool = new Pool({
+        user: 'osm',
+        host: 'localhost',
+        database: 'osm',
+        password: 'osm',
+        port: 5432,
+    });
     await pgPool.query("CREATE TABLE IF NOT EXISTS public.population_mapping_color (id SERIAL PRIMARY KEY, gid INT, gid_0 VARCHAR (80), gid_1 VARCHAR (80), gid_2 VARCHAR (80), name_2 VARCHAR (80), geom geometry(MULTIPOLYGON));").then(() => console.log("Created table!"))
         .catch(err => console.error('Error executing query', err.stack));
 }
@@ -40,4 +48,6 @@ async function run() {
     await importData(districts);
 }
 
-run().catch(err => console.error(err));
+// run().catch(err => console.error(err));
+
+module.exports.run = run;

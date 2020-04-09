@@ -1,9 +1,16 @@
-var esClient = require('../db/esConnection.js');
-var pgPool = require('../db/pgConnection.js');
+const elasticsearch = require('elasticsearch');
+const { Pool } = require('pg');
 
-
+var pgPool = null;
 
 async function createTable() {
+  pgPool = new Pool({
+    user: 'osm',
+    host: 'localhost',
+    database: 'osm',
+    password: 'osm',
+    port: 5432,
+  })
   // --- CREATE TABLE IF NOT EXISTS ---
   await pgPool.query("CREATE TABLE IF NOT EXISTS public.vehicle (gid SERIAL PRIMARY KEY, geom geometry(POINT,4326));")
     .then(() => console.log("Created table!"))
@@ -11,6 +18,12 @@ async function createTable() {
 }
 
 async function getPoints() {
+  const esClient = new elasticsearch.Client( {  
+    hosts: [
+      'http://localhost:9200/',
+    ]
+  });
+
   let allPoints = [];
   let responseQueue = [];
   const response = await esClient.search({
@@ -85,4 +98,6 @@ async function run() {
   await reindex();
 }
 
-run().catch(err => console.error(err));
+// run().catch(err => console.error(err));
+
+module.exports.run = run;
