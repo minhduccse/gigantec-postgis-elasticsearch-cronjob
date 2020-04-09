@@ -1,15 +1,9 @@
-const dropTables = require('./cronjob/dropTables');
-const fetchDataFromElasticToPostGIS = require('./cronjob/fetchDataFromElasticToPostGIS');
-const createIncomeMappingColor = require('./cronjob/createIncomeMappingColor');
-const createPopulationMappingColor = require('./cronjob/createPopulationMappingColor');
-const createHashColorTable = require('./cronjob/createHashColorTable');
+const dropData = require('./cronjob/dropData');
+const fetchData = require('./cronjob/fetchData');
 
 var CronJob = require('cron').CronJob;
 var job = new CronJob('*/5 * * * *', async function() {
-  await dropTables.run();
-  await fetchDataFromElasticToPostGIS.run();
-  await createIncomeMappingColor.run();
-  await createPopulationMappingColor.run();
-  await createHashColorTable.run();
-}, null, true, 'America/Los_Angeles');
+  await dropData.run();
+  await fetchData.run();
+}, null, true, 'Asia/Ho_Chi_Minh');
 job.start();
