@@ -48,6 +48,6 @@ async function run() {
     await importData(districts);
 }
 
-// run().catch(err => console.error(err));
+run().catch(err => console.error(err));
 
 module.exports.run = run;

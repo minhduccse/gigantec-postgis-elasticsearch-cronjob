@@ -34,8 +34,8 @@ async function getPoints() {
         range: {
           time: {
             time_zone: "+07:00",
-            gte: "2020-04-03 12:00:00",
-            lte: "2020-04-04 12:00:00"
+            gte: "now-1d",
+            lte: "now"
           }
         }
       }
@@ -97,7 +97,5 @@ async function run() {
   await importData(points);
   await reindex();
 }
-
-// run().catch(err => console.error(err));
 
 module.exports.run = run;

@@ -20,12 +20,12 @@
   "devDependencies": {},
   "scripts": {
     "start": "node ./bin/www",
-    "fetch-data": "node cronjob/fetchDataFromElasticToPostGIS.js",
-    "drop-data": "node cronjob/dropTables.js",
-    "income-color": "node cronjob/createIncomeMappingColor.js",
-    "population-color": "node cronjob/createPopulationMappingColor.js",
-    "create-hash-table": "node cronjob/createHashColorTable.js",
-    "test-query": "node cronjob/testQuery.js"
+    "fetch-data": "node scripts/fetchDataFromElasticToPostGIS.js",
+    "drop-data": "node scripts/dropTables.js",
+    "income-color": "node scripts/createIncomeMappingColor.js",
+    "population-color": "node scripts/createPopulationMappingColor.js",
+    "create-hash-table": "node scripts/createHashColorTable.js",
+    "test-query": "node scripts/testQuery.js"
   },
   "repository": {
     "type": "git",

@@ -65,6 +65,6 @@ async function run() {
     await importPopulationSampleData(districts);
 }
 
-// run().catch(err => console.error(err));
+run().catch(err => console.error(err));
 
 module.exports.run = run;

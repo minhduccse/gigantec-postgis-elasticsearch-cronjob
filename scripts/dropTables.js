@@ -28,6 +28,6 @@ async function run() {
   await pgClient.end().then(() => console.log('Pool has ended'));
 }
 
-// run().catch(err => console.error(err));
+run().catch(err => console.error(err));
 
 module.exports.run = run;

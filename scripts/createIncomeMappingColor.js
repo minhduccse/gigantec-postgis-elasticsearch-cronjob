@@ -60,6 +60,6 @@ async function run() {
     await calculateDensity();
 }
 
-// run().catch(err => console.error(err));
+run().catch(err => console.error(err));
 
 module.exports.run = run;
