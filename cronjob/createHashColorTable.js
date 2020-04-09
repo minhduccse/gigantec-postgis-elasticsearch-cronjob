@@ -21,7 +21,9 @@ async function importIncomeSampleData() {
         );
     }
 
-    await Promise.all(promises).then(() => console.log('All done!')).catch(err => console.error('Error executing query', err.stack));
+    await Promise.all(promises)
+        .then(() => console.log('All done!'))
+        .catch(err => console.error('Error executing query', err.stack));
 }
 
 async function getDistricts() {
@@ -44,7 +46,8 @@ async function importPopulationSampleData(districts) {
             .catch(err => console.error('Error executing query', err.stack)));
     });
 
-    await Promise.all(promises).then(() => console.log('All done!')).catch(err => console.error('Error executing query', err.stack));
+    await Promise.all(promises).then(() => console.log('All done!'))
+        .catch(err => console.error('Error executing query', err.stack));
     await pgPool.end().then(() => console.log('Pool has ended'));
 }
 

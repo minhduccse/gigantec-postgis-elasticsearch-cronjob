@@ -25,10 +25,13 @@ async function importData(wards) {
             + row.gid_2 + "', '"
             + row.gid_3 + "', ST_AsText('"
             + row.geom
-            + "'));").then(() => console.log('Import row', row.gid_2)).catch(err => console.error('Error executing query', err.stack)));
+            + "'));").then(() => console.log('Import row', row.gid_2))
+            .catch(err => console.error('Error executing query', err.stack)));
     });
 
-    await Promise.all(promises).then(() => console.log('All done!')).catch(err => console.error('Error executing query', err.stack));
+    await Promise.all(promises)
+        .then(() => console.log('All done!'))
+        .catch(err => console.error('Error executing query', err.stack));
 }
 
 async function calculateDensity() {
@@ -50,4 +53,4 @@ async function run() {
     await calculateDensity();
 }
 
-run();
+run().catch(err => console.error(err));

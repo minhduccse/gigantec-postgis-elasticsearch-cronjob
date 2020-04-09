@@ -24,11 +24,14 @@ async function importData(districts) {
             + row.gid_2 + "', '"
             + row.name_2 + "', ST_AsText('"
             + row.geom
-            + "'));").then(() => console.log('Import row', row.gid_2)).catch(err => console.error('Error executing query', err.stack)));
+            + "'));").then(() => console.log('Import row', row.gid_2))
+            .catch(err => console.error('Error executing query', err.stack)));
     });
 
-    await Promise.all(promises).then(() => console.log('All done!')).catch(err => console.error('Error executing query', err.stack));
-    await pgPool.end().then(() => console.log('Pool-import-districts has ended'));
+    await Promise.all(promises)
+        .then(() => console.log('All done!'))
+        .catch(err => console.error('Error executing query', err.stack));
+    await pgPool.end().then(() => console.log('Pool has ended'));
 }
 
 async function run() {
@@ -37,4 +40,4 @@ async function run() {
     await importData(districts);
 }
 
-run();
+run().catch(err => console.error(err));
