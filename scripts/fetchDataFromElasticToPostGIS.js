@@ -16,12 +16,6 @@ async function createTable() {
 }
 
 async function getPoints() {
-  const esClient = new elasticsearch.Client( {  
-    hosts: [
-      'http://localhost:9200/',
-    ]
-  });
-
   let allPoints = [];
   let responseQueue = [];
   const response = await esClient.search({
