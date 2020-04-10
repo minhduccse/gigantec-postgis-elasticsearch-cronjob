@@ -28,7 +28,7 @@ async function importIncomeSampleData() {
 
 async function getDistricts() {
     let districts = [];
-    await pgPool.query("select * from population_mapping_color;").then(res => {
+    await pgPool.query("select * from district_table;").then(res => {
         districts = res.rows;
     }).catch(err => console.error('Error executing query', err.stack));
     return districts;

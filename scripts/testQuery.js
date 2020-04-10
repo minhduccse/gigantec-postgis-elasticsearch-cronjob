@@ -1,7 +1,7 @@
 const pgPool = require('../db/pgConnection')
 
 async function testQuery() {
-    await pgPool.query("SELECT * FROM income_mapping_color WHERE mean = (SELECT MAX (mean) FROM income_mapping_color);")
+    await pgPool.query("SELECT * FROM ward_table WHERE mean = (SELECT MAX (mean) FROM ward_table);")
     .then(res => {
         console.log(res);
         console.log("Query done!");
@@ -12,7 +12,7 @@ async function testQuery() {
 
 // async function getRows() {
 //     let rows = [];
-//     await pgPool.query("select * from vnm_3 where gid_1 = 'VNM.25_1';").then(res => {
+//     await pgPool.query("select * from vnm_3 where PROVINCE = 'Hồ Chí Minh';").then(res => {
 //         wards = res.rows;
 //     }).catch(err => console.error('Error executing query', err.stack));
 //     return rows;
