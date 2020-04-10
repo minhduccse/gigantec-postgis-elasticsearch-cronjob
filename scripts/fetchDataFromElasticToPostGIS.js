@@ -19,8 +19,8 @@ async function getPoints() {
         range: {
           time: {
             time_zone: "+07:00",
-            gte: "now-1d",
-            lte: "now"
+            gte: "2020-04-03 12:00:00",
+            lte: "2020-04-04 12:00:00"
           }
         }
       }
@@ -70,8 +70,8 @@ async function importData(points) {
 }
 
 async function reindex() {
-  await pgPool.query("REINDEX TABLE vehicle")
-    .then(() => console.log("Reindexed table!"))
+  await pgPool.query("CREATE INDEX geom_idx ON vehicle (geom);")
+    .then(() => console.log("Indexed table!"))
     .catch(err => console.error('Error executing query', err.stack));
   await pgPool.end().then(() => console.log('Pool-fetch-data has ended'));
 }
