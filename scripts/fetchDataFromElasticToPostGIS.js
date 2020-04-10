@@ -2,13 +2,6 @@ var esClient = require('../db/esConnection.js');
 var pgPool = require('../db/pgConnection.js');
 
 async function createTable() {
-  pgPool = new Pool({
-    user: 'osm',
-    host: 'localhost',
-    database: 'osm',
-    password: 'osm',
-    port: 5432,
-  })
   // --- CREATE TABLE IF NOT EXISTS ---
   await pgPool.query("CREATE TABLE IF NOT EXISTS public.vehicle (gid SERIAL PRIMARY KEY, geom geometry(POINT,4326));")
     .then(() => console.log("Created table!"))
