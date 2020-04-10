@@ -1,4 +1,4 @@
-const { Pool, Client } = require('pg');
+const pgClient = require('../db/pgConnection');
 
 // --- DROP TABLE ---
 async function run() {

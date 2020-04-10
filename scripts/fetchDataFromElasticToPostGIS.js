@@ -1,7 +1,5 @@
-const elasticsearch = require('elasticsearch');
-const { Pool } = require('pg');
-
-var pgPool = null;
+var esClient = require('../db/esConnection.js');
+var pgPool = require('../db/pgConnection.js');
 
 async function createTable() {
   pgPool = new Pool({

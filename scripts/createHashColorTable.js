@@ -1,13 +1,6 @@
-const { Pool } = require('pg');
-var pgPool = null;
+const pgPool = require('../db/pgConnection');
+
 async function createTable() {
-    pgPool = new Pool({
-        user: 'osm',
-        host: 'localhost',
-        database: 'osm',
-        password: 'osm',
-        port: 5432,
-    });
     await pgPool.query("CREATE TABLE IF NOT EXISTS public.income_info (id SERIAL PRIMARY KEY, max_value NUMERIC, color_type VARCHAR (20), color_value VARCHAR (10), color_range_start VARCHAR (10), color_range_stop VARCHAR (10));")
         .then(() => console.log("Created table!"))
         .catch(err => console.error('Error executing query', err.stack));
