@@ -40,9 +40,9 @@ async function importPopulationSampleData(districts) {
     districts.map(function (row) {
         promises.push(pgPool.query("INSERT INTO population_info (gid, district, population, color_value) VALUES("
             + row.gid + ", '"
-            + row.name_2 + "', "
+            + row.district + "', "
             + 0 + ", '#ffffff');")
-            .then(() => console.log('Import district ', row.name_2))
+            .then(() => console.log('Import district ', row.district))
             .catch(err => console.error('Error executing query', err.stack)));
     });
 
